@@ -5,7 +5,6 @@ import type { Project } from "@/lib/projects";
 import { ProjectList } from "./project-list";
 
 type Props = { projects: Project[] };
-
 export function ProjectSearch({ projects }: Props) {
   const [query, setQuery] = useState("");
   const shown = projects.filter((p) =>

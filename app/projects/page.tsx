@@ -1,23 +1,25 @@
-import { getProjects } from "@/lib/projects";
-import { ProjectSearch } from "./project_search";
 import { Suspense } from "react";
-import { SlowSection } from "./slow-section";
-import { SlowSectionSkeleton } from "./slow-section-skeleton";
+import { Breadcrumbs } from "@/app/ui/breadcrumbs";
+import { ProjectRows } from "./project-rows";
+import { ProjectStats } from "./project.stats";
+import { RowsSkeleton, StatsSkeleton } from "./skeletons";
 
-export default async function ProjectPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ state?: string }>;
-}) {
-  const { state } = await searchParams;
-  const projects = await getProjects(state);
+export const dynamic = "force-dynamic";
 
+export default function ProjectsPage() {
   return (
     <main className="px-16 py-8">
-      <h1 className="text-4xl font-bold">Projects</h1>
-      <ProjectSearch projects={projects} />
-      <Suspense fallback={<SlowSectionSkeleton />}>
-        <SlowSection />
+      <Breadcrumbs
+        items={[{ label: "Home", href: "/" }, { label: "Projects" }]}
+      />
+      <h1 className="mt-4 text-4xl font-bold">Projects</h1>
+
+      <Suspense fallback={<StatsSkeleton />}>
+        <ProjectStats />
+      </Suspense>
+
+      <Suspense fallback={<RowsSkeleton />}>
+        <ProjectRows />
       </Suspense>
     </main>
   );
